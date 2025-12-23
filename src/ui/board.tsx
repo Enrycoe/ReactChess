@@ -49,7 +49,7 @@ export default function Board(){
       for (const [x, y] of availableMoves || []) {
         newHighlights[x][y] = true
       }
-      
+
       setCurrentPiece({ piece: squares[i][j], position: [i, j] })
       setHighlightedSquares(newHighlights)
 
@@ -61,14 +61,17 @@ export default function Board(){
 
     if (!isMoveAvailable) {
       setCurrentPiece(null)
+      setHighlightedSquares(initialHighlights())
       return;
     }
 
     const newSquares = squares.map((row) => row.slice())
-    newSquares[currentPiece.position[0]][currentPiece.position[1]] = null
+    newSquares[currentPiece.position[0]][currentPiece.position[1]] = null;
     newSquares[i][j] = currentPiece.piece
+    newSquares[i][j]!.currentPosition = [i, j]
     setCurrentPiece(null)
     setSquares(newSquares)
+    setHighlightedSquares(initialHighlights())
   }
 
   return (<div className="board">
